@@ -2,13 +2,13 @@
 
 Think of it like this:
 
-Chat App
+     Chat App
 
-     ↓
-WhatsApp Clone
+        ↓
+    WhatsApp Clone
 
-     ↓
-Discord Clone
+        ↓
+    Discord Clone
 
 
 The chat app contains only the core messaging functionality.
