@@ -2,6 +2,7 @@ import users from "../models/users.js";
 import bcrypt from 'bcrypt' 
 import jwt from 'jsonwebtoken'
 import validator from 'validator';
+import { io } from "../server.js";
 
 const createToken = (id) => {
     return jwt.sign({ id }, process.env.SECRET, {
@@ -56,6 +57,7 @@ export const signup = async (req ,res) => {
 
         const token = createToken(user._id)
 
+        io.emit("newUser", user);
         res.status(201).json({
             _id : user._id , 
             username : user.username ,

@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import API from "../api/axios";
 import useAuthContext from '../hooks/useAuthContext';
 
-
-
 const Signup = () => {
 
     const navigate = useNavigate()
@@ -14,26 +12,20 @@ const Signup = () => {
     const [ password , setPassword ] = useState('')
     const [ loading , setLoading ] = useState(false)
     const [ error , setError ] = useState('')
-    
 
     const handleLogin = () => {
         navigate('/login')
     }
-    
     const handleSubmit =  async (e) => {
         e.preventDefault()
         setLoading(true)
         setError('')
-
         try {
-
             const response = await API.post("/auth/signup" ,{
                 username ,email , password
             })
-
             localStorage.setItem("user" , JSON.stringify(response.data)        
             )
-
             dispatch({
                 type : "LOGIN",
                 payload : response.data
@@ -46,46 +38,46 @@ const Signup = () => {
         }
     } 
 
-
         return (
-            <>
-            <div>
-                <h1>Sign-Up</h1>
+            <div className='auth-container'>
+            <div className='auth-card'>
+                <h1>Create Account 🚀</h1>
+                <p className="auth-subtitle">
+                Join ChatApp and start chatting.
+                </p>
                 <form onSubmit={handleSubmit}>
                     <input 
                     type='text'
                     placeholder='name'
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}/>
-                    <br />
-                    <br />
                     <input 
                     type='email'
                     placeholder='email'
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}/>
-                    <br />
-                    <br />
                     <input 
                     type='password'
                     placeholder='password'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}/>
-                    <br />
-                    <br />
-                    <button type='submit' disabled={loading}>{loading ? "Signing Up...":"Sign-Up"}</button>
+                    <button type='submit' disabled={loading}>{loading ? "Creating Account...":"Sign Up"}</button>
                 </form>
                 {
                     error && ( 
-                        <p style={{ color : "red"}}>{error}</p>
+                        <p className='auth-error'>{error}</p>
                     )
                 }
-                <button onClick={handleLogin}>Login Page</button>
+                <p className="switch-auth">
+                    Already have an account?
+                    <span onClick={handleLogin}>
+                        Login
+                    </span>
+                </p>
             </div>
-            </>
+            </div>
         )
 }
-
 export default Signup
 
 

@@ -32,32 +32,40 @@ const Login = () => {
         }
         setLoading(false)
     }
+
+    const handleLogin = () => {
+        navigate('/signup')
+    }
     return (
-        <>
-        <div>
-            <h1>Login</h1>
+        <div className='auth-container'>
+        <div className='auth-card'>
+            <h1>Welcome Back 👋</h1>
+            <p className="auth-subtitle">
+                Login to continue chatting.
+            </p>
             <form onSubmit={handleSubmit}>
                 <input 
                 type='email'
                 placeholder='email'
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}/>
-                <br />
-                <br />
                 <input 
                 type='password'
                 placeholder='password'
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}/>
-                <br />
-                <br />
-                <button type='submit'>Login</button>
+                <button type='submit' disabled={loading}>{loading ? "Logging In...":"Login"}</button>
             </form>
             {error && (
-                <p style={{color : "red"}}>{error}</p>
+                <p className='auth-error'>{error}</p>
             )}
+            <p className="switch-auth">Create an account!
+                <span onClick={handleLogin}>
+                    Signup
+                </span>
+            </p>
         </div>
-        </>
+        </div>
     )
 }
 
