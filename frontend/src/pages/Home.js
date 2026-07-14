@@ -225,7 +225,6 @@ const Home = () => {
     useEffect(() => {
         socket.off("newUser");
         socket.on("newUser", (newUser) => {
-            // console.log("NEW USER RECEIVED:", newUser);
             const exists = users.some(user => user._id === newUser._id);
             if (!exists) {
                 chatDispatch({

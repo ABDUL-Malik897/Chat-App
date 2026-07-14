@@ -2,7 +2,7 @@ import React from 'react'
 
 const UserCard = ({ user , selectedUser , chatDispatch , onlineUsers}) => {
 
-    const isOnline = onlineUsers.includes(user._id)
+    const isOnline = onlineUsers.some(id => id.toString() === user._id.toString());
 
     return (
         <div className={`user-card ${

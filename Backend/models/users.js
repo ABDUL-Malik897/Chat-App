@@ -18,6 +18,34 @@ const userSchema = new mongoose.Schema(
         profilePic : {
             type : String,
             default : ''
+        },
+        bio : {
+            type : String,
+            default :"Hey there! I'm using Chat-App.",
+            maxlength : 120
+        },
+        lastSeen: {
+            type: Date,
+            default: Date.now
+        },
+        lastSeenPrivacy: {
+            type: String,
+            enum: ["everyone", "contacts", "nobody"],
+            default: "everyone"
+        },
+        profilePhotoPrivacy: {
+            type: String,
+            enum: ["everyone", "contacts", "nobody"],
+            default: "everyone"
+        },
+        aboutPrivacy: {
+            type: String,
+            enum: ["everyone", "contacts", "nobody"],
+            default: "everyone"
+        },
+        readReceipts: {
+            type: Boolean,
+            default: true
         }
     },{timestamps : true}
 )

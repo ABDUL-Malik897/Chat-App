@@ -178,6 +178,26 @@ const ChatContainer = ({
             ?.toLowerCase()
             .includes(searchText.toLowerCase());
     });
+
+    const formatMessageDate = (date) => {
+
+        const today = new Date();
+        const messageDate = new Date(date);
+
+        const yesterday = new Date();
+        yesterday.setDate(today.getDate() - 1);
+
+        if (messageDate.toDateString() === today.toDateString()) {
+            return "Today";
+        }
+
+        if (messageDate.toDateString() === yesterday.toDateString()) {
+            return "Yesterday";
+        }
+
+        return messageDate.toLocaleDateString();
+    };
+
     const matchedMessages = searchText?.trim()
         ? filteredMessages.filter(message =>
                 message.text
@@ -199,7 +219,7 @@ const ChatContainer = ({
             }
         };
 
-        
+    let lastDate = "";
 
 
     return (
@@ -341,23 +361,31 @@ const ChatContainer = ({
             >
                 {
                     messages.length > 0 ? (
-                        filteredMessages.map((message, index) => (
-                            <div
-                                key={message._id}
-                                ref={(el) =>{
-                                    searchRefs.current[index] = el
-                                    messageRefs.current[message._id]= el
-                                }}
-                            >
-                                <MessageBubble
-                                    message={message}
-                                    currentUser={currentUser}
-                                    searchText={searchText}
-                                    jumpMessageId={jumpMessageId}
-                                    pinnedMessage={pinnedMessage}
-                                />
-                            </div>
-                        ))
+                        filteredMessages.map((message, index) => {
+                        const currentDate = formatMessageDate(message.createdAt);
+                        const showDate = currentDate !== lastDate;
+                        lastDate = currentDate;
+                        return (
+                            <React.Fragment key={message._id}>
+                                {
+                                    showDate && (
+                                        <div className="date-divider">
+                                            <span>{currentDate}</span>
+                                        </div>
+                                    )
+                                }
+                                <div
+                                    ref={el => searchRefs.current[index] = el}
+                                >
+                                    <MessageBubble
+                                        message={message}
+                                        currentUser={currentUser}
+                                        searchText={searchText}
+                                    />
+                                </div>
+                            </React.Fragment>
+                        );
+                    })
                     ) : (
                         <div className="empty-chat-message">
                             <h2>💬</h2>

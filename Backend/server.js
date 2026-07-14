@@ -7,6 +7,7 @@ import userRoutes from './routes/userRoutes.js';
 import mssgRoutes from "./routes/mssgRoutes.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
+import users from "./models/users.js";
 
 
 connectDB()
@@ -64,10 +65,11 @@ io.on("connection", (socket) => {
             })
         }
     })
-    socket.on("disconnect" , () => {
+    socket.on("disconnect" , async () => {
         for (const [userId , socketId] of onlineUsers.entries()) {
             if (socketId === socket.id) {
                 onlineUsers.delete(userId);
+                await users.findByIdAndUpdate(userId, {lastSeen: new Date()});
                 break;
             }
         }

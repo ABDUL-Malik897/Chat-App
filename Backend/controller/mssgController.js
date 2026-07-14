@@ -7,13 +7,9 @@ import PinMssg from "../models/pinMssg.js";
 export const sendMssg = async (req, res) => {
 
     try {
-
         const { sender, receiver, text, replyTo } = req.body;
-
         const receiverSocketId = onlineUsers.get(receiver);
-
         const status = receiverSocketId ? "Delivered" : "Sent";
-
         const mssg = await Message.create({
             sender,
             receiver,
@@ -21,7 +17,6 @@ export const sendMssg = async (req, res) => {
             status,
             replyTo: replyTo || null
         });
-
         const populatedMessage = await Message.findById(mssg._id)
             .populate("sender", "username profilePic")
             .populate({
@@ -31,26 +26,18 @@ export const sendMssg = async (req, res) => {
                     select: "username profilePic"
                 }
             });
-
         if (receiverSocketId) {
-
             io.to(receiverSocketId).emit(
                 "receiveMessage",
                 populatedMessage
             );
-
         }
-
         res.status(201).json(populatedMessage);
-
     } catch (error) {
-
         res.status(500).json({
             message: error.message
         });
-
     }
-
 };
 
 export const getMssg = async (req, res) => {

@@ -6,8 +6,27 @@ import useChatContext from '../hooks/useChatContext';
 const ChatHeader = ({ selectedUser , onlineUsers , typingUser }) => {
 
     const { dispatch } = useChatContext();
-    const isOnline = onlineUsers.includes(selectedUser._id)
+    const isOnline = onlineUsers.some(id => id.toString() === selectedUser._id.toString());
     const isTyping = typingUser === selectedUser._id
+
+    const formatLastSeen = (date) => {
+        if (!date) return "Offline";
+        const lastSeen = new Date(date);
+        const today = new Date();
+        const yesterday = new Date();
+        yesterday.setDate(today.getDate() - 1);
+        const time = lastSeen.toLocaleTimeString([], {
+            hour: "numeric",
+            minute: "2-digit"
+        });
+        if (lastSeen.toDateString() === today.toDateString()) {
+            return `Last seen today at ${time}`;
+        }
+        if (lastSeen.toDateString() === yesterday.toDateString()) {
+            return `Last seen yesterday at ${time}`;
+        }
+        return `Last seen ${lastSeen.toLocaleDateString()} ${time}`;
+    };
 
     return (
         <div className='chat-header'>
@@ -31,9 +50,15 @@ const ChatHeader = ({ selectedUser , onlineUsers , typingUser }) => {
                         {
                             isTyping 
                                 ? <span className='typing'>✍️ Typing...</span> 
-                                : isOnline 
-                                    ? "🟢 Online" 
-                                    : "⚫ Offline"
+                                : isOnline ? (
+                                    <span className="online-status">
+                                        🟢 Online
+                                    </span>
+                                ) : (
+                                    <span className="offline-status">
+                                        {formatLastSeen(selectedUser.lastSeen)}
+                                    </span>
+                                )
                         }
                     </p>
                 </div>

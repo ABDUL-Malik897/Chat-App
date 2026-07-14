@@ -23,6 +23,7 @@ const Login = () => {
             const response = await API.post('/auth/login' , {
                 email , password
             })
+            
             localStorage.setItem('user', JSON.stringify(response.data))
 
             dispatch({ type : "LOGIN" , payload : response.data})

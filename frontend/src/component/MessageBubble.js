@@ -138,9 +138,6 @@ const MessageBubble = ({ message , currentUser ,searchText , jumpMessageId,pinne
         });
         setShowMenu(false);
     };
-
-    // console.log(message.replyTo);
-
     const handlePin = async () => {
 
         try {

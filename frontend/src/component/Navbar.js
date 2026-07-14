@@ -2,11 +2,13 @@ import { Link, useNavigate } from "react-router-dom";
 import useAuthContext from "../hooks/useAuthContext";
 import React, { useState } from 'react'
 import ProfileModal from "./ProfileModal";
+import SettingsModal from "./SettingsModal";
 
 
 const Navbar = () => {
 
     const [showProfile , setShowProfile] = useState(false)
+    const [showSettings, setShowSettings] = useState(false);
     const { user , dispatch } = useAuthContext()
     const navigate = useNavigate()
 
@@ -20,6 +22,7 @@ const Navbar = () => {
         navigate("/login")
     }
     return (
+        <>
         <nav>
             <h2>💬 Chat App</h2>
             {
@@ -44,27 +47,35 @@ const Navbar = () => {
                         }
                         <span>{user.username}</span>
                     </div>
+                        <button onClick={() => setShowSettings(true)}>
+                            ⚙ Settings
+                        </button>
                         <button onClick={handleLogout}>LOGOUT</button>
                     </div>
                 ) : (
                     <div>
                         <Link to='/login'>LOGIN</Link>
-
                         {" | "}
-
                         <Link to="/signup">Signup</Link>
                     </div>
                 )
                 
             }
-            {
-                user && showProfile &&
-                <ProfileModal
-                    closeModal={() => setShowProfile(false)}
-                />
-            }
-
         </nav>
+        {
+            user && showProfile &&
+            <ProfileModal
+                closeModal={() => setShowProfile(false)}
+            />
+        }
+        {
+            showSettings && (
+                <SettingsModal
+                    closeModal={() => setShowSettings(false)}
+                />
+            )
+        }
+        </>
     )
 }
 
