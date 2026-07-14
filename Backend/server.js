@@ -18,12 +18,18 @@ const server = createServer(app)
 
 io = new Server(server ,{
     cors : {
-        origin : "http://localhost:3000",
+        origin : ["http://localhost:3000","https://chat-app-eight-theta-67.vercel.app/login"],
         methods : ["GET","POST"]
     }
 })
 
-app.use(cors())
+app.use(cors({
+    origin: [
+        "http://localhost:3000",
+        "https://chat-app-eight-theta-67.vercel.app/login"
+    ],
+    credentials: true
+}));
 app.use(express.json())
 
 app.use('/auth', authRoutes)
