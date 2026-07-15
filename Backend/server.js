@@ -19,15 +19,16 @@ const server = createServer(app)
 
 io = new Server(server ,{
     cors : {
-        origin : ["http://localhost:3000","https://chat-app-eight-theta-67.vercel.app"],
-        methods : ["GET","POST"]
+        origin : ["http://localhost:3000",process.env.CLIENT_URL],
+        methods : ["GET","POST"],
+        credentials: true
     }
 })
 
 app.use(cors({
     origin: [
         "http://localhost:3000",
-        "https://chat-app-eight-theta-67.vercel.app"
+        process.env.CLIENT_URL
     ],
     credentials: true
 }));
