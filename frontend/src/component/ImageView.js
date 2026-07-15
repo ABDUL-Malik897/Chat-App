@@ -1,23 +1,20 @@
 import React, { useEffect } from "react";
+import "./ImageView.css"
 
 const ImageViewer = ({ image, onClose }) => {
 
     useEffect(() => {
-
         const handleEsc = (e) => {
             if (e.key === "Escape") {
                 onClose();
             }
         };
-
         window.addEventListener("keydown", handleEsc);
-
         return () =>
             window.removeEventListener(
                 "keydown",
                 handleEsc
             );
-
     }, [onClose]);
 
     return (
@@ -25,19 +22,16 @@ const ImageViewer = ({ image, onClose }) => {
             className="image-viewer-overlay"
             onClick={onClose}
         >
-
             <div
                 className="image-viewer-content"
                 onClick={(e) => e.stopPropagation()}
             >
-
                 <button
                     className="image-close-btn"
                     onClick={onClose}
                 >
                     ✕
                 </button>
-
                 <a
                     href={image}
                     download
@@ -47,14 +41,11 @@ const ImageViewer = ({ image, onClose }) => {
                 >
                     ⬇ Download
                 </a>
-
                 <img
                     src={image}
                     alt="Preview"
                 />
-
             </div>
-
         </div>
     );
 };

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import API from "../api/axios";
 import useAuthContext from '../hooks/useAuthContext';
+import "./Login.css"
 
 
 const Login = () => {
@@ -15,17 +16,14 @@ const Login = () => {
 
     const handleSubmit =  async (e) => {
         e.preventDefault()
-
         setError('')
         setLoading(true)
-
         try {
             const response = await API.post('/auth/login' , {
                 email , password
             })
             
             localStorage.setItem('user', JSON.stringify(response.data))
-
             dispatch({ type : "LOGIN" , payload : response.data})
             navigate('/')
         } catch (error) {
@@ -33,10 +31,10 @@ const Login = () => {
         }
         setLoading(false)
     }
-
     const handleLogin = () => {
         navigate('/signup')
     }
+    
     return (
         <div className='auth-container'>
         <div className='auth-card'>

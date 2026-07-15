@@ -4,18 +4,15 @@ import jwt from 'jsonwebtoken'
 import validator from 'validator';
 import { io } from "../server.js";
 
-const createToken = (id) => {
-    return jwt.sign({ id }, process.env.SECRET, {
+const createToken = (id, tokenVersion) => {
+    return jwt.sign({ id , tokenVersion }, process.env.SECRET, {
         expiresIn : "7d"
     })
-}
-
-//Signup
+};
 
 export const signup = async (req ,res) => {
     try{
         const { username , email , password } = req.body
-
         if (!username || !email || !password) {
             return res.status(400).json({
                 message : "Please fill all fields"
@@ -50,13 +47,10 @@ export const signup = async (req ,res) => {
         }
         const salt = await bcrypt.genSalt(10)
         const hashPass = await bcrypt.hash(password , salt) 
-
         const user = await users.create({
             username , email , password : hashPass
         })
-
-        const token = createToken(user._id)
-
+        const token = createToken(user._id, user.tokenVersion)
         io.emit("newUser", user);
         res.status(201).json({
             _id : user._id , 
@@ -69,31 +63,24 @@ export const signup = async (req ,res) => {
             message : error.message
         })
     }
-}
-
-// Login
+};
 
 export const login = async (req, res) => {
     try {
         const { email , password } = req.body
-
         const user = await users.findOne({ email })
-
         if(!user) {
             return res.status(400).json({
                 message : "Invalid Credentials"
             })
         }
         const match = await bcrypt.compare(password , user.password)
-
         if(!match) {
             return res.status(400).json({
                 message : "Invalid Credentials"
             })
         }
-
-        const token = createToken(user._id)
-
+        const token = createToken(user._id, user.tokenVersion)
         res.json({
             _id : user._id ,
             username : user.username , 
@@ -105,5 +92,5 @@ export const login = async (req, res) => {
             message : error.message
         })
     }
-}
+};
 

@@ -3,6 +3,7 @@ import useAuthContext from "../hooks/useAuthContext";
 import API from "../api/axios"
 import useChatContext from "../hooks/useChatContext";
 import ImageViewer from "./ImageView";
+import "./MessageBubble.css"
 
 
 const MessageBubble = ({ message , currentUser ,searchText , jumpMessageId,pinnedMessage }) => {
@@ -14,17 +15,10 @@ const MessageBubble = ({ message , currentUser ,searchText , jumpMessageId,pinne
     const [showImage, setShowImage] = useState(false);
     
 
-    const senderId =
-        typeof message.sender === "object"
-            ? message.sender._id
-            : message.sender;
-
+    const senderId = typeof message.sender === "object" ? message.sender._id : message.sender;
     const isMine = senderId.toString() === user._id.toString();
     const isJumped = jumpMessageId === message._id;
-    const formattedTime = message.createdAt ? new Date(message.createdAt).toLocaleTimeString([],{
-        hour : "2-digit",
-        minute : "2-digit"
-    }) : ""
+    const formattedTime = message.createdAt ? new Date(message.createdAt).toLocaleTimeString([],{hour : "2-digit",minute : "2-digit"}) : ""
 
     const highlightText = (text) => {
         if (!searchText?.trim()) return text;
@@ -125,7 +119,7 @@ const MessageBubble = ({ message , currentUser ,searchText , jumpMessageId,pinne
         if (!acc[reaction.emoji]) {
             acc[reaction.emoji] = [];
         }
-        acc[reaction.emoji].push(reaction.user.username);
+        acc[reaction.emoji].push(reaction.user);
         return acc;
     }, {});
 
@@ -139,9 +133,7 @@ const MessageBubble = ({ message , currentUser ,searchText , jumpMessageId,pinne
         setShowMenu(false);
     };
     const handlePin = async () => {
-
         try {
-
             const response =
                 await API.patch(
                     `/mssg/pin/${message._id}`,
@@ -149,20 +141,14 @@ const MessageBubble = ({ message , currentUser ,searchText , jumpMessageId,pinne
                         userId: user._id
                     }
                 );
-
             chatDispatch({
                 type: "SET_PINNED_MESSAGE",
                 payload: response.data
             });
-
             setShowMenu(false);
-
         } catch (err) {
-
-            console.error(err);
-
+            console.error(err)
         }
-
     };
 
     return (
@@ -210,7 +196,6 @@ const MessageBubble = ({ message , currentUser ,searchText , jumpMessageId,pinne
                             />
                         )
                     }
-
                     {
                         !message.deletedForEveryone && message.media && message.mediaType === "video" && (
                             <video
@@ -224,7 +209,6 @@ const MessageBubble = ({ message , currentUser ,searchText , jumpMessageId,pinne
                             </video>
                         )
                     }
-
                     {
                         !message.deletedForEveryone && message.media && message.mediaType === "file" && (
                             <a
@@ -329,8 +313,8 @@ const MessageBubble = ({ message , currentUser ,searchText , jumpMessageId,pinne
                             <span>{emoji} {count}</span>
                             <div className="reaction-tooltip">
                                 {
-                                reactionUsers[emoji].map(user => (
-                                    <div key={user}>{user}</div>
+                                reactionUsers[emoji].map((user, index) => (
+                                    <div key={`${user._id} - ${index}`}>{user.username}</div>
                                 ))
                                 }
                             </div>

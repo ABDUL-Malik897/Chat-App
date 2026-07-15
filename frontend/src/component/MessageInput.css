@@ -1,0 +1,286 @@
+
+.message-input-container{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:16px 20px;
+    background:var(--surface);
+    border-top:1px solid var(--border);
+    position:relative;
+}
+
+.message-input{
+    flex:1;
+    height:50px;
+    padding:0 18px;
+    border:1px solid var(--border);
+    border-radius:999px;
+    outline:none;
+    font-size:15px;
+    transition:.25s;
+    color:var(--text);
+    background:var(--hover);
+}
+
+.message-input:focus{
+    border-color:var(--primary);
+    background:var(--surface);
+    box-shadow:var(--focus-ring);
+}
+
+.attach-btn,
+.mic-btn{
+    width:48px;
+    height:48px;
+    border:none;
+    border-radius:50%;
+    background:var(--hover);
+    color:var(--primary);
+    cursor:pointer;
+    font-size:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:.25s;
+    flex-shrink:0;
+}
+
+.attach-btn:hover,
+.mic-btn:hover{
+    background:var(--primary);
+    color:white;
+    transform:translateY(-2px);
+}
+
+.send-btn{
+    height:50px;
+    min-width:110px;;
+    padding:0 24px;
+    border:none;
+    border-radius:999px;
+    background:var(--primary);
+    color:white;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.25s;
+    flex-shrink:0;
+}
+
+.send-btn:hover:not(:disabled){
+    filter:brightness(.92);
+    transform:translateY(-2px);
+}
+
+.send-btn:disabled{
+    opacity:.65;
+    cursor:not-allowed;
+}
+
+.reply-preview{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 20px;
+    background:var(--hover);
+    border-left:4px solid var(--primary);
+}
+
+.reply-content{
+    flex:1;
+}
+
+.reply-content strong{
+    color:var(--primary);
+    display:block;
+    margin-bottom:4px;
+}
+
+.reply-content p{
+    margin:0;
+    color:var(--text);
+}
+
+.reply-close-btn{
+    width:36px;
+    height:36px;
+    border:none;
+    border-radius:50%;
+    background:var(--surface);
+    cursor:pointer;
+    transition:.25s;
+}
+
+.reply-close-btn:hover{
+    background:#ef4444;
+    color:white;
+}
+
+.media-preview{
+    position:absolute;
+    left:20px;
+    bottom:78px;
+    background:var(--surface);
+    padding:12px;
+    border-radius:16px;
+    box-shadow:var(--shadow);
+    max-width:220px;
+    z-index:20;
+}
+
+.media-preview img{
+    width:180px;
+    border-radius:12px;
+    display:block;
+}
+
+.remove-media-btn{
+    position:absolute;
+    top:8px;
+    right:8px;
+    width:28px;
+    height:28px;
+    border:none;
+    border-radius:50%;
+    background:#ef4444;
+    color:white;
+    cursor:pointer;
+}
+
+.audio-preview{
+    margin:12px 20px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:16px;
+}
+
+.audio-preview-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+}
+
+.audio-preview audio{
+    width:100%;
+}
+
+.remove-audio-btn{
+    width:34px;
+    height:34px;
+    border:none;
+    border-radius:50%;
+    background:#ef4444;
+    color:white;
+    cursor:pointer;
+}
+
+.recording-indicator{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px 20px;
+    background:#fff7ed;
+    color:#b45309;
+    font-weight:600;
+}
+
+.record-dot{
+    width:12px;
+    height:12px;
+    border-radius:50%;
+    background:#ef4444;
+    animation:pulse 1s infinite;
+}
+
+.record-time{
+    margin-left:auto;
+}
+
+.cancel-record-btn{
+    margin:0 20px 12px;
+    width:100%;
+    height:44px;
+    border:none;
+    border-radius:12px;
+    background:#ef4444;
+    color:white;
+    cursor:pointer;
+    max-width: 200px;
+    margin: 0 auto;
+}
+
+@keyframes pulse{
+    0%{
+        opacity:1;
+        transform:scale(1);
+    }
+    50%{
+        opacity:.4;
+        transform:scale(1.4);
+    }
+    100%{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+@media(max-width:768px){
+    .message-input-container{
+        padding:14px;
+        gap:8px;
+    }
+
+    .attach-btn,
+    .mic-btn{
+        width:44px;
+        height:44px;
+        font-size:18px;
+    }
+
+    .send-btn{
+        min-width:95px;
+        height:46px;
+        padding:0 18px;
+        font-size:14px;
+    }
+
+    .message-input{
+        height:46px;
+    }
+
+    .media-preview{
+        left:12px;
+        bottom:72px;
+    }
+
+}
+
+@media(max-width:480px){
+    .message-input-container{
+        padding:10px;
+    }
+
+    .attach-btn,
+    .mic-btn{
+        width:40px;
+        height:40px;
+        font-size:16px;
+    }
+
+    .send-btn{
+        min-width:70px;
+        padding:0 14px;
+        font-size:13px;
+    }
+
+    .message-input{
+        font-size:14px;
+    }
+
+    .media-preview img{
+        width:140px;
+    }
+
+}

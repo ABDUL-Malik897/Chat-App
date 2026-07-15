@@ -13,32 +13,24 @@ export const ThemeProvider = ({ children }) => {
     );
 
     useEffect(() => {
-
-        document.body.classList.toggle("dark", darkMode);
-
         localStorage.setItem("darkMode", darkMode);
-
-    }, [darkMode]);
-
-    useEffect(() => {
-
-        document.body.classList.remove(
-            "theme-blue",
-            "theme-green",
-            "theme-purple",
-            "theme-black"
+        localStorage.setItem("themeColor", themeColor);
+        if (darkMode) {
+            document.documentElement.setAttribute(
+                "data-theme",
+                "dark"
+            );
+        } else {
+            document.documentElement.removeAttribute(
+                "data-theme"
+            );
+        }
+        const colors = {blue: "#2563eb", green: "#16a34a", purple: "#7c3aed", black: "#111827"};
+        document.documentElement.style.setProperty(
+            "--primary",
+            colors[themeColor]
         );
-
-        document.body.classList.add(
-            `theme-${themeColor}`
-        );
-
-        localStorage.setItem(
-            "themeColor",
-            themeColor
-        );
-
-    }, [themeColor]);
+    }, [darkMode, themeColor]);
 
     return (
         <ThemeContext.Provider

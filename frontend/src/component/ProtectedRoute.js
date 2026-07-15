@@ -6,7 +6,6 @@ import React from 'react'
 const ProtectedRoute = ({children}) => {
 
     const { user }  = useAuthContext()
-
     if (!user) {
         return <Navigate to='/login' replace/>
     }

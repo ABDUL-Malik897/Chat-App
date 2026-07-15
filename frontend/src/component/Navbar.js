@@ -3,6 +3,7 @@ import useAuthContext from "../hooks/useAuthContext";
 import React, { useState } from 'react'
 import ProfileModal from "./ProfileModal";
 import SettingsModal from "./SettingsModal";
+import "./Navbar.css"
 
 
 const Navbar = () => {
@@ -14,13 +15,12 @@ const Navbar = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('user')
-
         dispatch({
             type : "LOGOUT"
         })
-
         navigate("/login")
     }
+
     return (
         <>
         <nav>
@@ -54,7 +54,7 @@ const Navbar = () => {
                     </div>
                 ) : (
                     <div>
-                        <Link to='/login'>LOGIN</Link>
+                        <Link to='/login'>Login</Link>
                         {" | "}
                         <Link to="/signup">Signup</Link>
                     </div>

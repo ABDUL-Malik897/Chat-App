@@ -1,4 +1,5 @@
 import React from 'react'
+import "./UserCard.css"
 
 const UserCard = ({ user , selectedUser , chatDispatch , onlineUsers}) => {
 

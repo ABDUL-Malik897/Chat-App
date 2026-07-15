@@ -10,7 +10,11 @@ const mssgSchema = new mongoose.Schema(
         receiver : {
             type : mongoose.Schema.Types.ObjectId,
             ref : "User",
-            required : true
+            required : function () {
+                return !this.group
+            },
+            default : null
+
         },
         text : {
             type : String,
@@ -67,6 +71,11 @@ const mssgSchema = new mongoose.Schema(
         fileSize: {
             type: Number,
             default: 0
+        },
+        group: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Group",
+            default: null
         }
     },{
         timestamps : true

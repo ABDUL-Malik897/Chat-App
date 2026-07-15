@@ -1,0 +1,362 @@
+.profile-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.6);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    z-index:9999;
+}
+
+.profile-modal{
+    width:720px;
+    max-width:95vw;
+    max-height:90vh;
+    overflow-y:auto;
+    background:#ffffff;
+    border-radius:22px;
+    padding:30px;
+    position:relative;
+    box-shadow:0 20px 60px rgba(0,0,0,.2);
+    animation:popup .25s ease;
+}
+
+@keyframes popup{
+    from{
+        opacity:0;
+        transform:translateY(20px) scale(.97);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
+.close-profile-btn{
+    position:absolute;
+    top:18px;
+    right:18px;
+    width:40px;
+    height:40px;
+    border:none;
+    border-radius:50%;
+    background:#f3f4f6;
+    cursor:pointer;
+    font-size:18px;
+    transition:.25s;
+}
+
+.close-profile-btn:hover{
+    background:#ef4444;
+    color:white;
+}
+
+.profile-avatar-preview{
+    width:150px;
+    height:150px;
+    margin:0 auto 20px;
+    border-radius:50%;
+    overflow:hidden;
+    border:4px solid #2563eb;
+    transition:.25s;
+}
+
+.profile-avatar-preview:hover{
+    transform:scale(1.04);
+}
+
+.profile-avatar{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.profile-avatar-placeholder{
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#2563eb,#60a5fa);
+    color:white;
+    font-size:60px;
+}
+
+.profile-modal h2{
+    text-align:center;
+    margin:0;
+    font-size:30px;
+    color:#111827;
+}
+
+.profile-modal>p{
+    text-align:center;
+    color:#6b7280;
+    margin:10px 0 20px;
+}
+
+.edit-group-btn{
+    margin-left:10px;
+    width:34px;
+    height:34px;
+    border:none;
+    border-radius:10px;
+    background:#eff6ff;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.edit-group-btn:hover{
+    background:#2563eb;
+    color:white;
+}
+
+.add-members-btn{
+    width:100%;
+    height:48px;
+    border:none;
+    border-radius:14px;
+    background:#2563eb;
+    color:white;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    margin-bottom:20px;
+    transition:.25s;
+}
+
+.add-members-btn:hover{
+    background:#1d4ed8;
+}
+
+.leave-group-btn{
+    width:100%;
+    height:48px;
+    border:none;
+    border-radius:14px;
+    background:#ef4444;
+    color:white;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.leave-group-btn:hover{
+    background:#dc2626;
+}
+
+.rename-group{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin:20px 0;
+}
+
+.rename-group input,
+.rename-group textarea{
+    width:93%;
+    border:1px solid #d1d5db;
+    border-radius:14px;
+    padding:14px;
+    font-size:15px;
+    outline:none;
+    resize:none;
+}
+
+.rename-group input:focus,
+.rename-group textarea:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 4px rgba(37,99,235,.12);
+}
+
+.rename-group button{
+    height:46px;
+    border:none;
+    border-radius:12px;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+}
+
+.group-description-section{
+    background:#f8fafc;
+    border:1px solid #e5e7eb;
+    border-radius:16px;
+    padding:18px;
+    margin-bottom:24px;
+}
+
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+}
+
+.section-header h4{
+    margin:0;
+    font-size:18px;
+}
+
+.group-description-section p{
+    line-height:1.7;
+    color:#4b5563;
+}
+
+.group-edit-actions{
+    display:flex;
+    gap:12px;
+}
+
+.group-edit-actions button{
+    flex:1;
+    height:44px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    background:#2563eb;
+    color:white;
+}
+
+.group-edit-actions button:last-child{
+    background:#9ca3af;
+}
+
+.group-member{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:12px;
+    border-radius:14px;
+    transition:.25s;
+    margin-bottom:10px;
+}
+
+.group-member:hover{
+    background:#f3f6fb;
+}
+
+.group-member .avatar{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    object-fit:cover;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#2563eb;
+    color:white;
+    font-weight:700;
+}
+
+.group-member strong{
+    display:block;
+    color:#111827;
+    margin-bottom:3px;
+}
+
+.group-member p{
+    color:#6b7280;
+    font-size:13px;
+}
+
+.remove-member-btn{
+    margin-left:auto;
+    width:38px;
+    height:38px;
+    border:none;
+    border-radius:50%;
+    background:#fee2e2;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.remove-member-btn:hover{
+    background:#ef4444;
+    color:white;
+}
+
+.group-member input[type="checkbox"]{
+    width:18px;
+    height:18px;
+    cursor:pointer;
+}
+
+.send-btn-grp{
+    width:100%;
+    height:48px;
+    margin-top:20px;
+    border:none;
+    border-radius:14px;
+    background:#2563eb;
+    color:white;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.send-btn-grp:hover{
+    background:#1d4ed8;
+}
+
+.profile-modal::-webkit-scrollbar{
+    width:7px;
+}
+
+.profile-modal::-webkit-scrollbar-thumb{
+    background:#cbd5e1;
+    border-radius:999px;
+}
+
+@media(max-width:768px){
+    .profile-modal{
+        width:100%;
+        padding:20px;
+    }
+
+    .profile-avatar-preview{
+        width:120px;
+        height:120px;
+    }
+
+    .profile-modal h2{
+        font-size:24px;
+    }
+
+    .group-edit-actions{
+        flex-direction:column;
+    }
+
+}
+
+@media(max-width:480px){
+    .profile-overlay{
+        padding:10px;
+    }
+
+    .profile-modal{
+        padding:16px;
+        border-radius:16px;
+    }
+
+    .profile-avatar-preview{
+        width:100px;
+        height:100px;
+    }
+
+    .profile-modal h2{
+        font-size:22px;
+    }
+
+    .group-member{
+        gap:10px;
+        padding:10px;
+    }
+
+    .group-member .avatar{
+        width:44px;
+        height:44px;
+    }
+}

@@ -9,6 +9,11 @@ const pinMssgSchema = new mongoose.Schema(
             required:true
         }
     ],
+    group : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "Group",
+        default : null
+    },
 
     message:{
         type:mongoose.Schema.Types.ObjectId,

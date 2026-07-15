@@ -6,9 +6,13 @@ import Signup from './pages/Signup';
 import Navbar from './component/Navbar';
 import ProtectedRoute from './component/ProtectedRoute';
 import PublicRoute from './component/PublicRoute';
+import { useEffect } from 'react';
+import { requestNotificationPermission } from './utils/notification';
 
 
 function App() {
+
+  useEffect(() => {requestNotificationPermission()}, []);
   return (
     <BrowserRouter>
       <Navbar />

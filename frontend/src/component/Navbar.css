@@ -1,0 +1,272 @@
+/* ======================================================
+                        NAVBAR
+====================================================== */
+
+nav{
+
+    height:72px;
+
+    padding:0 28px;
+
+    background:var(--surface);
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    border-bottom:1px solid var(--border);
+
+    box-shadow:var(--shadow);
+
+    position:sticky;
+
+    top:0;
+
+    z-index:100;
+
+}
+
+
+/* ======================================================
+                        LOGO
+====================================================== */
+
+nav h2{
+
+    margin:0;
+
+    font-size:28px;
+
+    font-weight:700;
+
+    color:var(--primary);
+
+    cursor:pointer;
+
+    user-select:none;
+
+}
+
+
+/* ======================================================
+                    RIGHT SECTION
+====================================================== */
+
+nav > div{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:16px;
+
+}
+
+
+/* ======================================================
+                    PROFILE
+====================================================== */
+
+.nav-profile{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    cursor:pointer;
+
+    padding:6px 12px;
+
+    border-radius:14px;
+
+    transition:.25s;
+
+}
+
+.nav-profile:hover{
+
+    background:var(--bg);
+
+}
+
+
+/* ======================================================
+                    AVATAR
+====================================================== */
+
+.nav-avatar{
+
+    width:46px;
+
+    height:46px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+    border:2px solid var(--primary);
+
+}
+
+.nav-avatar-placeholder{
+
+    width:46px;
+
+    height:46px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:var(--primary);
+
+    color:white;
+
+    font-weight:700;
+
+    font-size:18px;
+
+}
+
+
+/* ======================================================
+                    USERNAME
+====================================================== */
+
+.nav-profile span{
+
+    font-size:15px;
+
+    font-weight:600;
+
+    color:var(--text);
+
+    white-space:nowrap;
+
+}
+
+
+/* ======================================================
+                    BUTTONS
+====================================================== */
+
+nav button{
+
+    height:44px;
+
+    padding:0 18px;
+
+    border:none;
+
+    border-radius:12px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+
+/* SETTINGS */
+
+nav button:nth-of-type(1){
+
+    background:var(--hover);
+
+    color:var(--primary);
+
+}
+
+nav button:nth-of-type(1):hover{
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+
+/* LOGOUT */
+
+nav button:nth-of-type(2){
+
+    background:#ef4444;
+
+    color:white;
+
+}
+
+nav button:nth-of-type(2):hover{
+
+    background:#dc2626;
+
+}
+
+nav a{
+    color:var(--primary);
+    text-decoration:none;
+    font-weight:600;
+    transition:.25s;
+}
+
+nav a:hover{
+    color:var(--primary);
+    text-decoration:underline;
+}
+
+@media(max-width:768px){
+    nav{
+        padding:0 16px;
+    }
+
+    nav h2{
+        font-size:22px;
+    }
+
+    .nav-profile span{
+        display:none;
+    }
+
+    nav > div{
+        gap:10px;
+    }
+
+    nav button{
+        padding:0 12px;
+        font-size:13px;
+    }
+}
+
+@media(max-width:500px){
+    nav{
+        height:65px;
+    }
+
+    nav h2{
+        font-size:20px;
+    }
+
+    .nav-avatar,
+    .nav-avatar-placeholder{
+        width:40px;
+        height:40px;
+        font-size:16px;
+    }
+
+    nav button{
+        height:40px;
+        padding:0 10px;
+    }
+}

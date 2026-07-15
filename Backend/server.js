@@ -8,6 +8,7 @@ import mssgRoutes from "./routes/mssgRoutes.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import users from "./models/users.js";
+import grpRoutes from "./routes/grpRoutes.js";
 
 
 connectDB()
@@ -18,7 +19,7 @@ const server = createServer(app)
 
 io = new Server(server ,{
     cors : {
-        origin : ["http://localhost:3000","https://chat-app-eight-theta-67.vercel.app/login"],
+        origin : ["http://localhost:3000","https://chat-app-eight-theta-67.vercel.app"],
         methods : ["GET","POST"]
     }
 })
@@ -26,7 +27,7 @@ io = new Server(server ,{
 app.use(cors({
     origin: [
         "http://localhost:3000",
-        "https://chat-app-eight-theta-67.vercel.app/login"
+        "https://chat-app-eight-theta-67.vercel.app"
     ],
     credentials: true
 }));
@@ -35,6 +36,7 @@ app.use(express.json())
 app.use('/auth', authRoutes)
 app.use('/users' , userRoutes)
 app.use('/mssg', mssgRoutes)
+app.use('/groups', grpRoutes);
 app.get('/',(req ,res) =>{
     res.send("API Running...")
 })
@@ -44,24 +46,43 @@ const PORT = process.env.PORT || 4000;
 export const onlineUsers = new Map()
 
 io.on("connection", (socket) => {
-    console.log("User Connected :", socket.id);
-    socket.on("addUser" , (userId) => {
-        onlineUsers.set(userId, socket.id)
-        io.emit("getOnlineUsers", [...onlineUsers.keys()])
-        console.log("Online Users : ", onlineUsers);
-    })
+    socket.on("addUser", (userId) => {
+        onlineUsers.set(userId, socket.id);
+        io.emit("getOnlineUsers", [...onlineUsers.keys()]);
+    });
+    socket.on("joinGroup", (groupId) => {
+        socket.join(groupId);
+        console.log(
+            `${socket.id} joined group ${groupId}`
+        );
+    });
+    socket.on("leaveGroup", (groupId) => {
+        socket.leave(groupId);
+    });
     socket.on("typing",({ senderId , receiverId}) => {
         const receiverSocketId = onlineUsers.get(receiverId)
         if (receiverSocketId) {
             io.to(receiverSocketId).emit("userTyping" , senderId)
         }
     })
+    socket.on("groupTyping", ({ senderId, groupId }) => {
+        socket.to(groupId).emit("groupUserTyping", {
+            senderId,
+            groupId
+        });
+    });
     socket.on("stopTyping", ({senderId , receiverId }) => {
         const receiverSocketId = onlineUsers.get(receiverId)
         if (receiverSocketId) {
             io.to(receiverSocketId).emit("userStoppedTyping", senderId)
         }
     })
+    socket.on("groupStopTyping", ({ senderId, groupId }) => {
+        socket.to(groupId).emit("groupUserStoppedTyping", {
+            senderId,
+            groupId
+        });
+    });
     socket.on("markMssgRead", ({senderId , receiverId}) => {
         const senderSocketId = onlineUsers.get(senderId)
         if (senderSocketId) {

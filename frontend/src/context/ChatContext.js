@@ -15,7 +15,8 @@ const chatReducer = (state, action) => {
         case "SET_SELECTED_USER":
             return {
                 ...state,
-                selectedUser: action.payload
+                selectedUser: action.payload,
+                selectedGroup : null
             };
 
         case "SET_MESSAGES":
@@ -98,6 +99,7 @@ const chatReducer = (state, action) => {
                 ...state,
                 searchIndex: state.searchIndex + 1
             };
+
         case "PREVIOUS_SEARCH_RESULT":
             return {
                 ...state,
@@ -106,6 +108,7 @@ const chatReducer = (state, action) => {
                         ? state.searchIndex - 1
                         : 0
             };
+
         case "SET_PINNED_MESSAGE":
             return {
                 ...state,
@@ -117,6 +120,7 @@ const chatReducer = (state, action) => {
                 ...state,
                 pinnedMessage: null
             };
+
         case "SET_JUMP_MESSAGE":
             return {
                 ...state,
@@ -128,6 +132,48 @@ const chatReducer = (state, action) => {
                 ...state,
                 jumpMessageId: null
             };
+
+        case "SET_SELECTED_GROUP":
+            return {
+                ...state,
+                selectedGroup: action.payload,
+                selectedUser: null
+            };
+
+        case "SET_GROUPS":
+            return {
+                ...state,
+                groups: action.payload
+            };
+
+        case "SET_GROUP_TYPING_USER":
+            return {
+                ...state,
+                groupTypingUser: action.payload
+            };
+
+        case "CLEAR_GROUP_TYPING_USER":
+            return {
+                ...state,
+                groupTypingUser: null
+            };
+
+        case "UPDATE_GROUP":
+            return {
+                ...state,
+
+                groups: state.groups.map(group =>
+                    group._id === action.payload._id
+                        ? action.payload
+                        : group
+                ),
+
+                selectedGroup:
+                    state.selectedGroup &&
+                    state.selectedGroup._id === action.payload._id
+                        ? { ...action.payload }
+                        : state.selectedGroup
+            };
         default:
             return state;
     }
@@ -137,7 +183,6 @@ const chatReducer = (state, action) => {
 export const ChatContextProvider = ({ children }) => {
 
     const [state, dispatch] = useReducer(chatReducer, {
-
         users: [],
         selectedUser: null,
         messages: [],
@@ -150,7 +195,9 @@ export const ChatContextProvider = ({ children }) => {
         searchIndex: 0,
         pinnedMessage: null,
         jumpMessageId: null,
-
+        selectedGroup: null,
+        groups : [],
+        groupTypingUser: null,
     });
 
     return (

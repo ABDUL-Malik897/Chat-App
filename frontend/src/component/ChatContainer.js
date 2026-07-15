@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef , useState } from "react";
 import {
-    // FaSearch,
     FaChevronUp,
     FaChevronDown,
     FaTimes
@@ -10,11 +9,13 @@ import ChatHeader from "./ChatHeader";
 import MessageBubble from "./MessageBubble";
 import MessageInput from "./MessageInput";
 import useChatContext from "../hooks/useChatContext";
-import "../index.css";
 import API from "../api/axios";
+import GrpInfoModal from "../component/GrpInfoModal";
+import "./ChatContainer.css"
 
 const ChatContainer = ({
     selectedUser,
+    selectedGroup,
     messages,
     loadingMessages,
     handleSendMessage,
@@ -28,6 +29,8 @@ const ChatContainer = ({
     const searchRefs = useRef([]);
     const searchInputRef = useRef(null);
     const messageRefs = useRef({});
+    const [showGroupInfo, setShowGroupInfo] = useState(false);
+
 
     const {
         searchOpen,
@@ -39,47 +42,37 @@ const ChatContainer = ({
     } = useChatContext();
 
 
+
+
     useEffect(() => {
-
         if (!searchText?.trim()) return;
-
         searchRefs.current[searchIndex]?.scrollIntoView({
             behavior: "smooth",
             block: "center"
         });
-
     }, [searchIndex, searchText]);
 
-
     useEffect(() => {
-
         if (searchOpen) {
             searchInputRef.current?.focus();
         }
-
     }, [searchOpen]);
 
 
     useEffect(() => {
-
         const handleKeyDown = (e) => {
-
             if (e.key === "Escape") {
-
                 dispatch({
                     type: "SET_SEARCH_TEXT",
                     payload: ""
                 });
-
                 dispatch({
                     type: "SET_SEARCH_INDEX",
                     payload: 0
                 });
-
                 dispatch({
                     type: "TOGGLE_SEARCH"
                 });
-
             }
 
         };
@@ -155,7 +148,7 @@ const ChatContainer = ({
 
     }, [jumpMessageId, dispatch]);
 
-    if (!selectedUser) {
+    if (!selectedUser && !selectedGroup) {
         return (
             <div className="empty-chat">
                 <div className="empty-chat-icon">💬</div>
@@ -205,19 +198,36 @@ const ChatContainer = ({
                     .includes(searchText.toLowerCase())
             )
         : [];
-        const handleUnpin = async () => {
-            try{
+
+    const handleUnpin = async () => {
+
+        try {
+
+            if (selectedGroup) {
+
+                await API.delete(
+                    `/groups/${selectedGroup._id}/unpin`
+                );
+
+            } else {
+
                 await API.delete(
                     `/mssg/unpin/${currentUser._id}/${selectedUser._id}`
                 );
-                dispatch({
-                    type:"CLEAR_PINNED_MESSAGE"
-                });
+
             }
-            catch(err){
-                console.error(err);
-            }
-        };
+
+            dispatch({
+                type: "CLEAR_PINNED_MESSAGE"
+            });
+
+        } catch (err) {
+
+            console.error(err);
+
+        }
+
+    };
 
     let lastDate = "";
 
@@ -226,9 +236,19 @@ const ChatContainer = ({
         <div className="chat-container">
             <ChatHeader
                 selectedUser={selectedUser}
+                selectedGroup={selectedGroup}
                 onlineUsers={onlineUsers}
                 typingUser={typingUser}
+                openGroupInfo={() => setShowGroupInfo(true)}
             />
+            {
+                showGroupInfo && selectedGroup && (
+                    <GrpInfoModal
+                        selectedGroup={selectedGroup}
+                        closeModal={() => setShowGroupInfo(false)}
+                    />
+                )
+            }
             {
                 pinnedMessage?.message && (
                     <div className="pinned-banner">
@@ -381,6 +401,8 @@ const ChatContainer = ({
                                         message={message}
                                         currentUser={currentUser}
                                         searchText={searchText}
+                                        jumpMessageId={jumpMessageId}
+                                        pinnedMessage={pinnedMessage}
                                     />
                                 </div>
                             </React.Fragment>
@@ -401,6 +423,7 @@ const ChatContainer = ({
             <MessageInput
                 handleSendMessage={handleSendMessage}
                 selectedUser={selectedUser}
+                selectedGroup={selectedGroup}
             />
         </div>
     );
