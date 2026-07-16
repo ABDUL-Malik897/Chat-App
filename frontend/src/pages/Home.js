@@ -114,10 +114,6 @@ const Home = () => {
                             replyTo
                         }
                     );
-                    // chatDispatch({
-                    //     type: "ADD_MESSAGE",
-                    //     payload: response.data
-                    // });
                 } else {
                     const response = await API.post(
                         "/mssg",
