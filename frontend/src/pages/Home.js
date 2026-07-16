@@ -107,17 +107,17 @@ const Home = () => {
             }
             else {
                 if (selectedGroup) {
-                    const response = await API.post(
+                    await API.post(
                         `/groups/${selectedGroup._id}/messages`,
                         {
                             text,
                             replyTo
                         }
                     );
-                    chatDispatch({
-                        type: "ADD_MESSAGE",
-                        payload: response.data
-                    });
+                    // chatDispatch({
+                    //     type: "ADD_MESSAGE",
+                    //     payload: response.data
+                    // });
                 } else {
                     const response = await API.post(
                         "/mssg",
