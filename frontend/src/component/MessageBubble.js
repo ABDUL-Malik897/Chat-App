@@ -123,7 +123,9 @@ const MessageBubble = ({ message , currentUser ,searchText , jumpMessageId,pinne
         return acc;
     }, {});
 
-    const myReaction = message.reactions?.find(reaction => reaction.user._id === user._id)?.emoji;
+    // const myReaction = message.reactions?.find(reaction => reaction.user._id === user._id)?.emoji;
+
+    const myReaction = message.reactions?.find(reaction => (reaction.user?._id || reaction.user)?.toString() === user._id.toString())?.emoji;
     
     const handleReply = () => {
         chatDispatch({

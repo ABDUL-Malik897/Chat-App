@@ -106,19 +106,33 @@ const Home = () => {
                 }
             }
             else {
-                const response = await API.post(
-                    "/mssg",
-                    {
-                        sender: user._id,
-                        receiver: selectedUser._id,
-                        text,
-                        replyTo
-                    }
-                );
-                chatDispatch({
-                    type: "ADD_MESSAGE",
-                    payload: response.data
-                });
+                if (selectedGroup) {
+                    const response = await API.post(
+                        `/groups/${selectedGroup._id}/messages`,
+                        {
+                            text,
+                            replyTo
+                        }
+                    );
+                    chatDispatch({
+                        type: "ADD_MESSAGE",
+                        payload: response.data
+                    });
+                } else {
+                    const response = await API.post(
+                        "/mssg",
+                        {
+                            sender: user._id,
+                            receiver: selectedUser._id,
+                            text,
+                            replyTo
+                        }
+                    );
+                    chatDispatch({
+                        type: "ADD_MESSAGE",
+                        payload: response.data
+                    });
+                }
             }
             chatDispatch({
                 type: "CLEAR_REPLY_MESSAGE"

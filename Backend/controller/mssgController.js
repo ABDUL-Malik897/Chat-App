@@ -198,7 +198,9 @@ export const reactToMessage = async (req, res) => {
             });
         }
         const existingReaction = message.reactions.find(
-            reaction => reaction.user.toString() === userId
+            reaction =>
+                reaction.user &&
+                reaction.user.toString() === userId
         );
         if (!existingReaction) {
             message.reactions.push({
@@ -226,19 +228,20 @@ export const reactToMessage = async (req, res) => {
                     select: "username profilePic"
                 }
             });
-        const senderSocketId = onlineUsers.get(
-            message.sender.toString()
-        );
-        const receiverSocketId = onlineUsers.get(
-            message.receiver.toString()
-        );
+        const senderSocketId = message.sender ? onlineUsers.get(message.sender.toString()): null;
+        const receiverSocketId = message.receiver ? onlineUsers.get(message.receiver.toString()) : null;
         if (senderSocketId) {
             io.to(senderSocketId).emit(
                 "messageReactionUpdated",
                 updatedMessage
             );
         }
-        if (receiverSocketId) {
+        if (message.group) {
+            io.to(message.group.toString()).emit(
+                "messageReactionUpdated",
+                updatedMessage
+            );
+        } else if (receiverSocketId) {
             io.to(receiverSocketId).emit(
                 "messageReactionUpdated",
                 updatedMessage
@@ -246,6 +249,7 @@ export const reactToMessage = async (req, res) => {
         }
         res.status(200).json(updatedMessage);
     } catch (error) {
+        console.error(error);
         res.status(500).json({
             message: error.message
         });

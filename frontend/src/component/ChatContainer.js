@@ -13,16 +13,7 @@ import API from "../api/axios";
 import GrpInfoModal from "../component/GrpInfoModal";
 import "./ChatContainer.css"
 
-const ChatContainer = ({
-    selectedUser,
-    selectedGroup,
-    messages,
-    loadingMessages,
-    handleSendMessage,
-    onlineUsers,
-    typingUser,
-    currentUser
-}) => {
+const ChatContainer = ({ selectedUser,  selectedGroup, messages, loadingMessages, handleSendMessage, onlineUsers, typingUser, currentUser}) => {
 
     const messagesRef = useRef(null);
     const bottomRef = useRef(null);
@@ -30,19 +21,7 @@ const ChatContainer = ({
     const searchInputRef = useRef(null);
     const messageRefs = useRef({});
     const [showGroupInfo, setShowGroupInfo] = useState(false);
-
-
-    const {
-        searchOpen,
-        searchText,
-        searchIndex,
-        dispatch,
-        pinnedMessage,
-        jumpMessageId,
-    } = useChatContext();
-
-
-
+    const {searchOpen, searchText, searchIndex, dispatch, pinnedMessage, jumpMessageId, } = useChatContext();
 
     useEffect(() => {
         if (!searchText?.trim()) return;
@@ -74,38 +53,26 @@ const ChatContainer = ({
                     type: "TOGGLE_SEARCH"
                 });
             }
-
         };
-
         window.addEventListener("keydown", handleKeyDown);
-
         return () =>
             window.removeEventListener(
                 "keydown",
                 handleKeyDown
             );
-
     }, [dispatch]);
 
 
     useEffect(() => {
-
         const handleShortcut = (e) => {
-
             if (e.ctrlKey && e.key === "f") {
-
                 e.preventDefault();
-
                 if (!searchOpen) {
-
                     dispatch({
                         type: "TOGGLE_SEARCH"
                     });
-
                 }
-
             }
-
         };
         window.addEventListener("keydown", handleShortcut);
         return () =>
@@ -123,29 +90,17 @@ const ChatContainer = ({
     }, [selectedUser]);
 
     useEffect(() => {
-
         if (!jumpMessageId) return;
-
         messageRefs.current[jumpMessageId]?.scrollIntoView({
-
             behavior: "smooth",
-
             block: "center"
-
         });
-
         const timer = setTimeout(() => {
             dispatch({
                 type: "CLEAR_JUMP_MESSAGE"
             });
         }, 2000);
-
     return () => clearTimeout(timer);
-
-        // dispatch({
-        //     type: "CLEAR_JUMP_MESSAGE"
-        // });
-
     }, [jumpMessageId, dispatch]);
 
     if (!selectedUser && !selectedGroup) {
@@ -173,21 +128,16 @@ const ChatContainer = ({
     });
 
     const formatMessageDate = (date) => {
-
         const today = new Date();
         const messageDate = new Date(date);
-
         const yesterday = new Date();
         yesterday.setDate(today.getDate() - 1);
-
         if (messageDate.toDateString() === today.toDateString()) {
             return "Today";
         }
-
         if (messageDate.toDateString() === yesterday.toDateString()) {
             return "Yesterday";
         }
-
         return messageDate.toLocaleDateString();
     };
 
@@ -200,37 +150,25 @@ const ChatContainer = ({
         : [];
 
     const handleUnpin = async () => {
-
         try {
-
             if (selectedGroup) {
-
                 await API.delete(
                     `/groups/${selectedGroup._id}/unpin`
                 );
-
             } else {
-
                 await API.delete(
                     `/mssg/unpin/${currentUser._id}/${selectedUser._id}`
                 );
-
             }
-
             dispatch({
                 type: "CLEAR_PINNED_MESSAGE"
             });
-
         } catch (err) {
-
             console.error(err);
-
         }
-
     };
 
     let lastDate = "";
-
 
     return (
         <div className="chat-container">
@@ -301,7 +239,6 @@ const ChatContainer = ({
             {
                 searchOpen && (
                     <div className="chat-search">
-                        {/* <FaSearch className="search-icon" /> */}
                         <input
                             ref={searchInputRef}
                             type="text"
