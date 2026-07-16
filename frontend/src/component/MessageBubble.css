@@ -266,7 +266,8 @@
 }
 
 .message-row.me .reaction-chip{
-    right: -10vh;
+    right: -5vh;
+    background-color: black;
 }
 
 .message-row.other .reaction-chip{
